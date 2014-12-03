@@ -41,6 +41,22 @@ var dictionary = {
 };
 var word ="";
 
+function searchAndAppendHint(){
+	for(var key in dictionary){
+		if(word == key){
+			$("span.definition").append(dictionary[key]);
+		}
+	}
+}
+
+var placeholder = "_ ";
+
+function createPlaceholders(){
+	for (var i = 0; i < word.length; i ++){
+		$(".word").append('<span>'+ placeholder +'</span>' )
+	}
+}
+
 $(document).ready(function(){
 	$('.hangman').append("<pre>" + getField() + "</pre>");
 
@@ -49,55 +65,47 @@ $(document).ready(function(){
 		$("button#start").hide();
 		$(".dialog").empty().append("Guess the word or we hang the innocent hostage!");
 		$(".initial-hide").show();
-		word = randomWord();
-		for(var key in dictionary){
-			if(word == key){
-				$("span.definition").append(dictionary[key]);
-			}
-		}
-		for (var i = 0; i < word.length; i ++){
-			$(".word").append('<span>'+ deadMan[12] +'<span>' )
-		}
 
+		word = randomWord();
+
+		searchAndAppendHint();
+		createPlaceholders();
 
 	});
 
+
+	function searchAppend(currentLetter) {
+		var found = false;
+		for (var i = 0; i < word.length; i++) {
+			if (currentLetter == word[i]) {
+				var number = i + 1;
+				$(".word span:nth-of-type("+ number +")").empty().append(currentLetter);
+				found = true;
+			}
+		}
+		if (!found) {
+			field[j] = hangman[j];
+			$('.hangman').empty().append("<pre>" + getField() + "</pre>");
+			j += 1;
+		}
+	}
+
 	var j = 1;
+
 
 	$("form#guess-letter").submit(function(event) {
 		event.preventDefault();
 
 		var currentLetter = $("input#letter").val();
 
-		var found = 0;
-
-		function searchAppend() {
-			for (var i = 0; i < word.length; i++) {
-				if (currentLetter == word[i]) {
-					$(".word").append(currentLetter);
-					var number = i + 1;
-					$(".word span:nth-of-type("+ number +")").empty().append(currentLetter);
-					found = +1;
-
-				}
-			}
-			if (found == 0) {
-				field[j] = hangman[j];
-				$('.hangman').empty().append("<pre>" + getField() + "</pre>");
-				j += 1;
-				return;
-			}
-		}
-
 
 		$("input#letter").val("");
-		searchAppend();
-
-
-		});
-
+		searchAppend(currentLetter);
 
 	});
+
+
+});
 
 /*	deadMan[0] = "    ";
  for (var i = 0; i < deadMan.length; i++){
@@ -105,4 +113,4 @@ $(document).ready(function(){
  $('body').append("<pre>" + getField() + "</pre>")
  }*/
 
-//вводить одну букву, гейм овер, рестарт
+//спаны... вводить одну букву, гейм овер, рестарт
