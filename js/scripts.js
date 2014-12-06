@@ -107,10 +107,6 @@ $(document).ready(function(){
 
 });
 
-/*	deadMan[0] = "    ";
- for (var i = 0; i < deadMan.length; i++){
- deadMan[i] = "    ";
- $('body').append("<pre>" + getField() + "</pre>")
- }*/
 
-//спаны... вводить одну букву, гейм овер, рестарт
+
+//TODO вводить одну букву, гейм овер, рестарт
